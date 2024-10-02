@@ -1,6 +1,7 @@
 package com.example.projekt.model;
 
 public class Car {
+    private int id=-1;
     private String spz;
     private String color;
     private String tankVolume;
@@ -48,5 +49,13 @@ public class Car {
 
     public void setNumberOfSeats(String numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
