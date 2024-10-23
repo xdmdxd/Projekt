@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver</title>
+</head>
+<body>
+<a th:href="@{'/driver/create'}">New Car</a>
+<h1>Driver</h1>
+<ul>
+    <li th:each="driver, iter: ${drivers}">
+        <a th:href="@{'/driver/detail/'+ ${iter.index}}">
+            <span th:text="${drivers.name}"></span>
+        </a>
+    </li>
+</ul>
+
+
+</body>
+</html>

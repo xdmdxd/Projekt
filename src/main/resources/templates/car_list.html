@@ -5,11 +5,11 @@
     <title>Auta</title>
 </head>
 <body>
-<a th:href="@{'/create'}">New Car</a>
+<a th:href="@{'/cars/create'}">New Car</a>
 <h1>Auta</h1>
 <ul>
     <li th:each="car, iter: ${cars}">
-        <a th:href="@{'/detail/'+ ${iter.index}}">
+        <a th:href="@{'/cars/detail/'+ ${iter.index}}">
             <span th:text="${car.spz}"></span>
         </a>
     </li>

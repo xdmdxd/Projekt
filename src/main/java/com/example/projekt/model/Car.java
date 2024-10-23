@@ -1,10 +1,27 @@
 package com.example.projekt.model;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+
 public class Car {
     private int id=-1;
+
+
+    @Min(value=7,message="Must be 7")
+    @Max(value=7, message="Cannot be over 7")
     private String spz;
+
+    @NotBlank
     private String color;
+
+    @Min(value=30,message="Must be 30")
+    @Max(value=100, message="Cannot be over 100")
     private String tankVolume;
+
+
+    @Min(value=1,message="Must be 1")
+    @Max(value=12, message="Cannot be over 12")
     private String numberOfSeats;
 
 
