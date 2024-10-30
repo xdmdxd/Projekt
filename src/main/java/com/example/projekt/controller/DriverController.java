@@ -29,7 +29,7 @@ public class DriverController {
     }
 
     @GetMapping("/detail/{index}")
-    public String detail(Model model, @PathVariable int index){
+    public String detail(Model model, @PathVariable long index){
         Driver driver = driverService.getDriverById(index);
         if(driver != null){
             model.addAttribute("driver", driver);
@@ -39,7 +39,7 @@ public class DriverController {
     }
 
     @GetMapping("/delete/{index}")
-    public String delete(Model model, @PathVariable int index){
+    public String delete(Model model, @PathVariable long index){
         driverService.deleteDriver(index);
         return "redirect:/drivers/";
     }
@@ -52,7 +52,7 @@ public class DriverController {
     }
 
     @GetMapping("/edit/{index}")
-    public String edit(Model model, @PathVariable int index){
+    public String edit(Model model, @PathVariable long index){
         Driver driver = driverService.getDriverById(index);
         if(driver != null){
             driver.setId(index);

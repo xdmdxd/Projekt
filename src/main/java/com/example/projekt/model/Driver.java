@@ -1,10 +1,13 @@
 package com.example.projekt.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-
+@Entity
+@Table(name="drivers")
 public class Driver {
-
-    private int id = -1;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @NotBlank
     private String name;
@@ -16,11 +19,11 @@ public class Driver {
     @Min(value = 20000)
     private int salary;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

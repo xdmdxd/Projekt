@@ -1,45 +1,43 @@
 package com.example.projekt.service;
 
 import com.example.projekt.model.Car;
+import com.example.projekt.repository.CarRepository;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarServiceImpl implements CarService {
 
-    ArrayList<Car> cars = new ArrayList<>();
+
+    CarRepository carRepository;
+    public CarServiceImpl(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
+
+
 
     @Override
-    public ArrayList<Car> getAllCars() {
-        return cars;
+    public List<Car> getAllCars() {
+        return carRepository.findAll();
     }
 
     @Override
-    public Car getCarById(int id) {
-        Car car = null;
-        if(id > -1 && id < getCount()){
-            car = cars.get(id);
-        }
-        return car;
+    public Car getCarById(long id) {
+        return carRepository.findById(id).orElse(null);
     }
 
     @Override
     public void saveCar(Car car) {
-        if(car.getId() > -1)
-            cars.remove(car.getId());
-        //car.setId(-1);
-        cars.add(car);
+        carRepository.save(car);
     }
 
     @Override
-    public void deleteCar(int id) {
-        if(id > -1 && id < getCount()){
-            cars.remove(id);
-        }
+    public void deleteCar(long id) {
+        Optional<Car> car=carRepository.findById(id);
+        if (car.isPresent()) {carRepository.delete(car.get());}
+
     }
 
-    @Override
-    public int getCount() {
-        return cars.size();
-    }
 }

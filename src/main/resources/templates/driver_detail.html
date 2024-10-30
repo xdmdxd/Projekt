@@ -5,8 +5,8 @@
     <title>Drivers Details</title>
 </head>
 <body>
-<a th:href="@{'/drivers/edit/' + ${index}}">EDIT DRIVER</a><br>
-<a th:href="@{'/drivers/delete/' + ${index}}">DELETE DRIVER</a><br>
+<a th:href="@{'/drivers/edit/' + ${driver.id}}">EDIT DRIVER</a><br>
+<a th:href="@{'/drivers/delete/' + ${driver.id}}">DELETE DRIVER</a><br>
 <b>Name: </b><span th:text="${driver.name}"></span><br>
 <b>Age: </b><span th:text="${driver.age}"></span><br>
 <b>Salary: </b><span th:text="${driver.salary}"></span>

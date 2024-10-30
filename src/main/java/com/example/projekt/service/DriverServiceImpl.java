@@ -1,45 +1,41 @@
 package com.example.projekt.service;
 
+import com.example.projekt.model.Car;
 import com.example.projekt.model.Driver;
+import com.example.projekt.repository.CarRepository;
+import com.example.projekt.repository.DriverRepository;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DriverServiceImpl implements DriverService {
 
-    ArrayList<Driver> drivers = new ArrayList<>();
-
-    @Override
-    public ArrayList<Driver> getAllDrivers() {
-        return drivers;
+    DriverRepository driverRepository;
+    public DriverServiceImpl(DriverRepository driverRepository) {
+        this.driverRepository = driverRepository;
     }
 
     @Override
-    public Driver getDriverById(int id) {
-        Driver driver = null;
-        if(id > -1 && id < getCount()){
-            driver = drivers.get(id);
-        }
-        return driver;
+    public List<Driver> getAllDrivers() {
+        return driverRepository.findAll();
+    }
+
+    @Override
+    public Driver getDriverById(long id) {
+        return driverRepository.findById(id).orElse(null);
     }
 
     @Override
     public void saveDriver(Driver driver) {
-        if(driver.getId() > -1)
-            drivers.remove(driver.getId());
-        //driver.setId(-1);
-        drivers.add(driver);
+        driverRepository.save(driver);
     }
 
     @Override
-    public void deleteDriver(int id) {
-        if(id > -1 && id < getCount()){
-            drivers.remove(id);
-        }
+    public void deleteDriver(long id) {
+        Optional<Driver> driver=driverRepository.findById(id);
+        if (driver.isPresent()) {driverRepository.delete(driver.get());}
     }
 
-    @Override
-    public int getCount() {
-        return drivers.size();
-    }
 }
