@@ -7,15 +7,9 @@ import java.util.ArrayList;
 
 @Service
 public interface DriverService {
-
-
     ArrayList<Driver> getAllDrivers();
-
-
     Driver getDriverById(int id);
-
-    void deleteDriverById(int id);
-    void saveDriver(Driver driver);
-
-
+    void saveDriver(Driver Driver);
+    void deleteDriver(int id);
+    int getCount();
 }

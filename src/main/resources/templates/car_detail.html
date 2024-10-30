@@ -2,17 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Auta details</title>
+    <title>Car Details</title>
 </head>
 <body>
-<h1>Auta</h1>
-
-<a th:href="@{'/cars/edit/' + ${index}}">Edit CAR</a><br>
+<a th:href="@{'/cars/edit/' + ${index}}">EDIT CAR</a><br>
 <a th:href="@{'/cars/delete/' + ${index}}">DELETE CAR</a><br>
-<b>SPZ:</b><span th:text="${car.spz}"></span><br>
-<b>Color:</b><span th:text="${car.color}"></span><br>
-<b>TankVolume:</b><span th:text="${car.tankVolume}"></span><br>
-<b>Number of seats:</b><span th:text="${car.numberOfSeats}"></span>
-
+<b>SPZ: </b><span th:text="${car.spz}"></span><br>
+<b>Color: </b><span th:text="${car.color}"></span><br>
+<b>Tank Volume: </b><span th:text="${car.tankVolume}"></span><br>
+<b>Number of Seats: </b><span th:text="${car.numberOfSeats}"></span>
 </body>
 </html>

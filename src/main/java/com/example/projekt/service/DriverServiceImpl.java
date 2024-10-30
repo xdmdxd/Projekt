@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 @Service
 public class DriverServiceImpl implements DriverService {
-    ArrayList<Driver> drivers=new ArrayList<>();
+
+    ArrayList<Driver> drivers = new ArrayList<>();
 
     @Override
     public ArrayList<Driver> getAllDrivers() {
@@ -15,28 +16,30 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver getDriverById(int id) {
-        if(id>-1&& id<drivers.size()){
-            Driver driver=drivers.get(id);
-            return driver;
+        Driver driver = null;
+        if(id > -1 && id < getCount()){
+            driver = drivers.get(id);
         }
-        return null;
+        return driver;
     }
 
     @Override
-    public void deleteDriverById(int id) {
-        if (id > -1 && id<drivers.size()) {
-            drivers.remove(id);
-
-        }
-    }
-
-    @Override
-    public void saveDriver(Driver driver){
-        if (driver.getId()>-1) {
+    public void saveDriver(Driver driver) {
+        if(driver.getId() > -1)
             drivers.remove(driver.getId());
-        }
+        //driver.setId(-1);
         drivers.add(driver);
     }
 
+    @Override
+    public void deleteDriver(int id) {
+        if(id > -1 && id < getCount()){
+            drivers.remove(id);
+        }
+    }
 
+    @Override
+    public int getCount() {
+        return drivers.size();
+    }
 }

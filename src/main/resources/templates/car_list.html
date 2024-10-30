@@ -2,19 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Auta</title>
+    <title>List of All Cars</title>
 </head>
 <body>
 <a th:href="@{'/cars/create'}">New Car</a>
-<h1>Auta</h1>
 <ul>
     <li th:each="car, iter: ${cars}">
-        <a th:href="@{'/cars/detail/'+ ${iter.index}}">
+        <a th:href="@{'/cars/detail/' + ${iter.index}}">
             <span th:text="${car.spz}"></span>
         </a>
     </li>
 </ul>
-
-
 </body>
 </html>

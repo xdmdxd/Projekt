@@ -7,15 +7,9 @@ import java.util.ArrayList;
 
 @Service
 public interface CarService {
-
-
     ArrayList<Car> getAllCars();
-
-
     Car getCarById(int id);
-
-    void deleteCarById(int id);
     void saveCar(Car car);
-
-
+    void deleteCar(int id);
+    int getCount();
 }
