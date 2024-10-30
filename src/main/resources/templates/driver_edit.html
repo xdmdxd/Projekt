@@ -6,7 +6,7 @@
 </head>
 <body>
 <form th:action="@{'/drivers/save'}" method="post" th:object="${driver}">
-    <input type="hidden" th:field="*{driver.id}">
+    <input type="hidden" th:field="*{id}">
     Name: <input type="text" th:field="*{name}">
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span><br>
     Age: <input type="text" th:field="*{age}">
