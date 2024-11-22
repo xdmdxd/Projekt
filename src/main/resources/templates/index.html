@@ -12,6 +12,12 @@
   <a th:href="@{'/offers/'}" class="btn btn-secondary">List of offers</a>
   <br>
   <a th:href="@{'/demands/'}" class="btn btn-secondary">List of demands</a>
+  <br><br>
+
+  <!-- Logout Button -->
+  <form th:action="@{/logout}" method="post" style="display: inline;">
+    <button type="submit" class="btn btn-danger">Logout</button>
+  </form>
 
 </center>
 
