@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -22,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUser() {
-        return userRepository.findAll(); // Vrátí seznam všech uživatelů
+        return userRepository.findAll();
     }
 
     @Override
@@ -30,17 +33,27 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-
     @Override
     public void saveUser(User user) {
-        userRepository.save(user); // Uloží nebo aktualizuje uživatele
+        userRepository.save(user);
     }
 
     @Override
     public void deleteUser(long id) {
         Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            userRepository.delete(user.get());
+        user.ifPresent(userRepository::delete);
+    }
+
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
         }
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .roles(user.getRole().name())
+                .build();
     }
 }
+

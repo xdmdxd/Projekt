@@ -1,42 +1,60 @@
 package com.example.projekt.config;
 
+import com.example.projekt.service.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    private final UserServiceImpl userService;
+
+    public SecurityConfig(UserServiceImpl userService) {
+        this.userService = userService;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())  // Disable CSRF if necessary
-                .authorizeRequests()
-                .requestMatchers("/login", "/register", "/css/**", "/js/**")  // Allow these pages and static resources
-                .permitAll()
-                .anyRequest().authenticated()  // All other pages need authentication
-                .and()
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login")  // Custom login page
-                        .loginProcessingUrl("/login")  // POST request for login
-                        .defaultSuccessUrl("/dashboard", true) // Redirect to dashboard on successful login
-                        .permitAll())
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/register", "/login", "/css/**").permitAll() // Povolené URL pro všechny
+                        .anyRequest().authenticated() // Zabezpečení všech ostatních URL
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/", true) // Přesměrování po úspěšném přihlášení
+                        .permitAll()
+                )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")  // Default logout URL
-                        .logoutSuccessUrl("/login")  // Redirect to login page on logout
-                        .permitAll());
+                        .logoutSuccessUrl("/login?logout") // Přesměrování po odhlášení
+                        .permitAll()
+                );
         return http.build();
     }
-}
 
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService::loadUserByUsername); // Používáme metodu z UserServiceImpl
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // Používáme BCrypt pro hesla
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
+}
