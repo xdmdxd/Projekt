@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Offer Details</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
+</head>
+<body>
+<div class="container">
+    <!-- Offer Details Section -->
+    <div class="offer-details">
+        <h2>Offer Details</h2>
+
+        <!-- Edit and Delete Buttons -->
+        <div class="buttons">
+            <a th:href="@{'/offers/edit/' + ${offer.id}}" class="btn btn-edit">EDIT OFFER</a>
+            <a th:href="@{'/offers/delete/' + ${offer.id}}" class="btn btn-delete">DELETE OFFER</a>
+        </div>
+
+        <!-- Offer Details -->
+        <div class="details">
+            <p><b>Title:</b> <span th:text="${offer.title}"></span></p>
+            <p><b>Description:</b> <span th:text="${offer.description}"></span></p>
+            <p><b>Price:</b> <span th:text="${offer.price}"></span></p>
+            <p><b>Location:</b> <span th:text="${offer.location}"></span></p>
+            <p><b>Created At:</b> <span th:text="${offer.createdAt}"></span></p>
+        </div>
+
+        <!-- Go back Button -->
+        <a th:href="@{'/offers/'}" class="btn btn-primary">Go back</a>
+    </div>
+</div>
+</body>
+</html>

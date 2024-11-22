@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${edit ? 'Edit User' : 'New User Registration'}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" /> <!-- Link to your CSS file -->
+</head>
+<body>
+<div class="container">
+    <h2 th:text="${edit ? 'Edit User' : 'New User Registration'}"></h2>
+
+    <!-- User Registration Form -->
+    <form th:action="@{'/register'}" method="post" th:object="${user}">
+        <!-- Hidden field for ID (for edit purposes) -->
+        <input type="hidden" th:field="*{user.id}">
+
+        <!-- Username -->
+        <div>
+            Username: <input type="text" th:field="*{user.username}" required>
+            <span th:if="${#fields.hasErrors('username')}" th:errors="*{user.username}"></span><br>
+        </div>
+
+        <!-- Email -->
+        <div>
+            Email: <input type="email" th:field="*{user.email}" required>
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{user.email}"></span><br>
+        </div>
+
+        <!-- Password -->
+        <div>
+            Password: <input type="password" th:field="*{user.password}" required>
+            <span th:if="${#fields.hasErrors('password')}" th:errors="*{user.password}"></span><br>
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+            Confirm Password: <input type="password" th:field="*{user.confirmPassword}" required>
+            <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{user.confirmPassword}"></span><br>
+        </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Register">
+
+    </form>
+
+    <!-- Link to Go Back to Login Page -->
+    <a th:href="@{'/login'}" class="btn btn-link">Already have an account? Login here</a>
+
+    <!-- Go back Button -->
+    <a th:href="@{'/'}" class="btn btn-primary">Go back</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of All Offers</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
+</head>
+<body>
+<div class="container">
+    <h2>List of All Offers</h2>
+    <table class="demand-table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="offer: ${offers}">
+            <td><span th:text="${offer.title}"></span></td>
+            <td><span th:text="${offer.price}"></span></td>
+            <td><span th:text="${offer.location}"></span></td>
+            <td>
+                <a th:href="@{'/offers/detail/' + ${offer.id}}" class="btn btn-info">View Details</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{'/offers/create'}" class="btn btn-primary">New Offer</a>
+    <a th:href="@{'/'}" class="btn btn-secondary">Go back</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of All Demands</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>List of All Demands</h1>
+
+    <!-- New Demand Button -->
+    <div class="new-demand">
+        <a th:href="@{'/demands/create'}" class="btn btn-primary">New Demand</a>
+    </div>
+
+    <!-- Demands List -->
+    <ul class="demands-list">
+        <li th:each="demand: ${demands}">
+            <a th:href="@{'/demands/detail/' + ${demand.id}}" class="demand-link">
+                <span th:text="${demand.title}"></span>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Go back Button -->
+    <a th:href="@{'/'}" class="btn btn-secondary">Go back</a>
+</div>
+</body>
+</html>

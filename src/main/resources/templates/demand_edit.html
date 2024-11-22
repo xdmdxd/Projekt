@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${edit ? 'Edit Demand' : 'New Demand'}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
+
+</head>
+<body>
+<div class="container">
+<form th:action="@{'/demands/save'}" method="post" th:object="${demand}">
+    <!-- Hidden field for ID -->
+    <input type="hidden" th:field="*{id}">
+
+    <!-- Title -->
+    Title: <input type="text" th:field="*{title}">
+    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span><br>
+
+    <!-- Description -->
+    Description: <input type="text" th:field="*{description}">
+    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span><br>
+
+    <!-- Price -->
+    Price: <input type="text" th:field="*{price}">
+    <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span><br>
+
+    <!-- Location -->
+    Location: <input type="text" th:field="*{location}">
+    <span th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></span><br>
+
+    <!-- Submit button -->
+    <input type="submit" value="Save">
+</form>
+<a th:href="@{'/demands/'}" class="btn btn-primary">Go back</a>
+</div>
+</body>
+</html>

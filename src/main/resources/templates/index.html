@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>PPRO Project</title>
+  <meta charset="UTF-8">
+  <title>Log</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
 </head>
 <body>
 <center>
-    <h1>PPRO Project</h1>
-    <a th:href="@{'/cars/'}">List of Cars</a>
-    <br><br>
-    <a th:href="@{'/drivers/'}">List of Drivers</a>
+  <h1>LOGGED IN</h1>
+
+  <a th:href="@{'/offers/'}" class="btn btn-secondary">List of offers</a>
+  <br>
+  <a th:href="@{'/demands/'}" class="btn btn-secondary">List of demands</a>
+
 </center>
+
 </body>
 </html>

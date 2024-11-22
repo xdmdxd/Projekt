@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demand Details</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
+</head>
+<body>
+<div class="container">
+    <!-- Demand Details Section -->
+    <div class="demand-details">
+        <h2>Demand Details</h2>
+
+        <!-- Edit and Delete Buttons -->
+        <div class="buttons">
+            <a th:href="@{'/demands/edit/' + ${demand.id}}" class="btn btn-edit">EDIT DEMAND</a>
+            <a th:href="@{'/demands/delete/' + ${demand.id}}" class="btn btn-delete">DELETE DEMAND</a>
+        </div>
+
+        <!-- Demand Details -->
+        <div class="details">
+            <p><b>Title:</b> <span th:text="${demand.title}"></span></p>
+            <p><b>Description:</b> <span th:text="${demand.description}"></span></p>
+            <p><b>Price:</b> <span th:text="${demand.price}"></span></p>
+            <p><b>Location:</b> <span th:text="${demand.location}"></span></p>
+            <p><b>Created At:</b> <span th:text="${demand.createdAt}"></span></p>
+        </div>
+
+        <!-- Go back Button -->
+        <a th:href="@{'/demands/'}" class="btn btn-primary">Go back</a>
+    </div>
+</div>
+</body>
+</html>

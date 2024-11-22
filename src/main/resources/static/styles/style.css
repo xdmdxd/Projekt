@@ -1,0 +1,170 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Main container */
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Title */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+/* New Demand Button */
+.new-demand {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.new-demand .btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 1.2em;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.new-demand .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Demands List */
+.demands-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.demands-list li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.demands-list li a.demand-link {
+    color: #007bff;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.demands-list li a.demand-link:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.1em;
+    border-radius: 5px;
+    margin: 15px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Go Back Button */
+.btn-secondary {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #218838;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
+    }
+
+    .new-demand .btn-primary {
+        width: 100%;
+        font-size: 1.1em;
+    }
+
+    .demands-list li {
+        font-size: 1em;
+    }
+
+    .offer-link {
+        color: #007bff; /* Blue color for the links */
+        font-size: 1.2em;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+        transition: color 0.3s ease, text-decoration 0.3s ease;
+    }
+    /* Table styles */
+    .offers-container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    /* Table */
+    .offers-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        border: 1px solid #ddd; /* Add border around the entire table */
+    }
+
+    /* Table Headers and Cells */
+    .offers-table th, .offers-table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #ddd; /* Add border around each table cell */
+    }
+
+    /* Table Header */
+    .offers-table th {
+        background-color: #f8f8f8;
+        color: #333;
+        font-weight: bold;
+    }
+
+    /* Hover effect for rows */
+    .offers-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+}
