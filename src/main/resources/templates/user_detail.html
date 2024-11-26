@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>User Details</h1>
+
+    <div class="details">
+        <p><b>Username:</b> <span th:text="${user.username}"></span></p>
+        <p><b>Email:</b> <span th:text="${user.email}"></span></p>
+        <p><b>Role:</b> <span th:text="${user.role}"></span></p>
+    </div>
+
+    <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary">User Edit</a>
+    <a th:href="@{/logout}" class="btn btn-danger">Logout</a>
+</div>
+</body>
+</html>

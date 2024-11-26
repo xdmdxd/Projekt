@@ -1,9 +1,12 @@
 package com.example.projekt.controller;
 
 import com.example.projekt.model.Offer;
+import com.example.projekt.model.User;
+import com.example.projekt.repository.UserRepository;
 import com.example.projekt.service.OfferService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,10 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class OfferController {
 
     private OfferService offerService;
+    private UserRepository userRepository;
 
     @Autowired
-    public OfferController(OfferService offerService) {
+    public OfferController(OfferService offerService, UserRepository userRepository) {
         this.offerService = offerService;
+        this.userRepository = userRepository;
     }
 
     // List all offers
@@ -53,11 +58,18 @@ public class OfferController {
         return "offer_edit";
     }
 
-    // Edit offer by ID
     @GetMapping("/edit/{id}")
-    public String edit(Model model, @PathVariable long id) {
+    public String edit(Model model, @PathVariable long id, Authentication authentication) {
+        // Fetch the offer by its ID
         Offer offer = offerService.getOfferById(id);
         if (offer != null) {
+            String loggedInUsername = authentication.getName(); // Get the logged-in user's username
+            if (!offer.getUser().getUsername().equals(loggedInUsername)) {
+                // Redirect if the logged-in user didn't create the offer
+                return "redirect:/offers/";
+            }
+
+            // Add attributes for editing the offer
             model.addAttribute("offer", offer);
             model.addAttribute("edit", true);
             return "offer_edit";
@@ -65,14 +77,14 @@ public class OfferController {
         return "redirect:/offers/";
     }
 
-    // Save offer (create or update)
     @PostMapping("/save")
-    public String save(@Valid Offer offer, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("edit", true);
-            return "offer_edit";
+    public String saveOffer(@ModelAttribute Offer offer, Authentication authentication) {
+        String username = authentication.getName(); // Získání přihlášeného uživatele
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            offer.setUser(user); // Přiřazení uživatele k nabídce
+            offerService.saveOffer(offer);
         }
-        offerService.saveOffer(offer);
         return "redirect:/offers/";
     }
 }

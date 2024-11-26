@@ -7,28 +7,27 @@
 </head>
 <body>
 <div class="container">
-    <h2>List of All Offers</h2>
-    <table class="demand-table">
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Location</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="offer: ${offers}">
-            <td><span th:text="${offer.title}"></span></td>
-            <td><span th:text="${offer.price}"></span></td>
-            <td><span th:text="${offer.location}"></span></td>
-            <td>
-                <a th:href="@{'/offers/detail/' + ${offer.id}}" class="btn btn-info">View Details</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <a th:href="@{'/offers/create'}" class="btn btn-primary">New Offer</a>
+    <h1>List of All Offers</h1>
+
+    <!-- New Offer Button -->
+    <div class="new-demand">
+        <a th:href="@{'/offers/create'}" class="btn btn-primary">New Offer</a>
+    </div>
+
+    <!-- Offers List -->
+    <ul class="demands-list">
+        <li th:each="offer: ${offers}">
+            <div>
+                <a th:href="@{'/offers/detail/' + ${offer.id}}" class="demand-link">
+                    <span th:text="${offer.title}"></span>
+                </a>
+                <span> - Created by: </span>
+                <span th:text="${offer.user.email}"></span>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Go back Button -->
     <a th:href="@{'/'}" class="btn btn-secondary">Go back</a>
 </div>
 </body>

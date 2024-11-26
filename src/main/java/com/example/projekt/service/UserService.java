@@ -12,5 +12,6 @@ public interface UserService {
     User getUserById(long id); // Method to find an offer by its ID
     void saveUser(User user); // Method to save or update an offer
     void deleteUser(long id);
+
 }
 

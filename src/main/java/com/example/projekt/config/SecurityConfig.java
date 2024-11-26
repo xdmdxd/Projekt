@@ -25,7 +25,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/login", "/css/**").permitAll() // Povolené URL pro všechny
+                        .requestMatchers("/register", "/login", "/styles/**").permitAll() // Povolené URL pro všechny
                         .anyRequest().authenticated() // Zabezpečení všech ostatních URL
                 )
                 .formLogin(form -> form
@@ -57,4 +57,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
+
+
 }
