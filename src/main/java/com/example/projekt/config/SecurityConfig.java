@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -15,9 +14,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final UserServiceImpl userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public SecurityConfig(UserServiceImpl userService) {
+    public SecurityConfig(UserServiceImpl userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Bean
@@ -25,16 +26,16 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/login", "/styles/**").permitAll() // Povolené URL pro všechny
-                        .anyRequest().authenticated() // Zabezpečení všech ostatních URL
+                        .requestMatchers("/register", "/login", "/styles/**").permitAll() // Public endpoints
+                        .anyRequest().authenticated() // Secure all other endpoints
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/", true) // Přesměrování po úspěšném přihlášení
+                        .defaultSuccessUrl("/", true) // Redirect after login
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout") // Přesměrování po odhlášení
+                        .logoutSuccessUrl("/login?logout") // Redirect after logout
                         .permitAll()
                 );
         return http.build();
@@ -43,20 +44,13 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService::loadUserByUsername); // Používáme metodu z UserServiceImpl
-        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setUserDetailsService(userService::loadUserByUsername); // UserDetailsService
+        authProvider.setPasswordEncoder(passwordEncoder); // Password encoder
         return authProvider;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Používáme BCrypt pro hesla
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-
-
 }

@@ -15,8 +15,9 @@
         <p><b>Role:</b> <span th:text="${user.role}"></span></p>
     </div>
 
-    <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary">User Edit</a>
-    <a th:href="@{/logout}" class="btn btn-danger">Logout</a>
+    <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-secondary">User Edit</a>
+    <a th:href="@{/logout}" class="btn btn-secondary">Logout</a>
+    <a th:href="@{/}" class="btn btn-secondary">Go back</a>
 </div>
 </body>
 </html>

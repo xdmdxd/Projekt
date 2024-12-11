@@ -31,12 +31,20 @@
 
         <div class="form-group">
             <label for="password">Password:</label>
+            <!-- Pokud není v režimu editace, pole je povinné -->
             <input type="password" id="password" name="password" class="form-control" th:field="*{password}" th:if="${!edit}" required>
+
+            <!-- Pokud je v režimu editace, pole hesla není povinné -->
+            <input type="password" id="newPassword" name="password" class="form-control" th:field="*{password}" th:if="${edit}">
+
+            <!-- Text pro uživatele, že může nechat heslo prázdné -->
             <p th:if="${edit}" class="text-muted">Leave blank to keep the current password.</p>
         </div>
 
+
+
         <button type="submit" class="btn btn-success" th:text="${edit ? 'Update' : 'Create'}"></button>
-        <a th:href="@{/users/}" class="btn btn-secondary">Cancel</a>
+        <a th:href="@{/}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 </body>

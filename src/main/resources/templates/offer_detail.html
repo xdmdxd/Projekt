@@ -13,9 +13,10 @@
 
         <!-- Edit and Delete Buttons -->
         <div class="buttons">
-            <a th:href="@{'/offers/edit/' + ${offer.id}}" class="btn btn-edit">EDIT OFFER</a>
-            <a th:href="@{'/offers/delete/' + ${offer.id}}" class="btn btn-delete">DELETE OFFER</a>
+            <a th:if="${isOwner}" th:href="@{'/offers/edit/' + ${offer.id}}" class="btn btn-secondary">EDIT OFFER</a>
+            <a th:if="${isOwner}" th:href="@{'/offers/delete/' + ${offer.id}}" class="btn btn-secondary">DELETE OFFER</a>
         </div>
+
 
         <!-- Offer Details -->
         <div class="details">
@@ -27,7 +28,7 @@
         </div>
 
         <!-- Go back Button -->
-        <a th:href="@{'/offers/'}" class="btn btn-primary">Go back</a>
+        <a th:href="@{'/offers/'}" class="btn btn-secondary">Go back</a>
     </div>
 </div>
 </body>

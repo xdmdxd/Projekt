@@ -35,8 +35,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
+        if (user.getId() != null) { // Pokud uživatel již existuje
+            User existingUser = userRepository.findById(user.getId()).orElse(null);
+            if (existingUser != null) {
+                // Zachovat heslo, pokud není nové heslo poskytnuto
+                if (user.getPassword() == null || user.getPassword().isEmpty()) {
+                    user.setPassword(existingUser.getPassword());
+                }
+            }
+        }
         userRepository.save(user);
     }
+
+
 
     @Override
     public void deleteUser(long id) {

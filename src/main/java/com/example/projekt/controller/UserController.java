@@ -84,16 +84,32 @@ public class UserController {
 
 
 
-    // Save user (create or update)
     @PostMapping("/save")
     public String save(@Valid User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("edit", true);
+            model.addAttribute("edit", user.getId() != null);
             return "user_edit";
         }
+
+        // Check if the email is already in use by another user
+        User existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser != null && !existingUser.getId().equals(user.getId())) {
+            model.addAttribute("emailError", "Email is already in use.");
+            model.addAttribute("edit", user.getId() != null);
+            return "user_edit";
+        }
+
+        // Handle password updates (e.g., allow blank passwords to mean "no change")
+        if (user.getPassword() != null && user.getPassword().isEmpty()) {
+            user.setPassword(null);
+        }
+
         userService.saveUser(user);
         return "redirect:/users/";
     }
+
+
+
 
 
 }

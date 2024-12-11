@@ -32,12 +32,14 @@ public class OfferController {
         return "offer_list";
     }
 
-    // View offer details by ID
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable long id) {
+    public String detail(Model model, @PathVariable long id, Authentication authentication) {
         Offer offer = offerService.getOfferById(id);
         if (offer != null) {
+            String loggedInUsername = authentication.getName();
+            boolean isOwner = offer.getUser().getUsername().equals(loggedInUsername); // Check ownership
             model.addAttribute("offer", offer);
+            model.addAttribute("isOwner", isOwner); // Pass ownership flag to the template
             return "offer_detail";
         }
         return "redirect:/offers/";
@@ -45,8 +47,18 @@ public class OfferController {
 
     // Delete offer by ID
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable long id) {
-        offerService.deleteOffer(id);
+    public String delete(@PathVariable long id, Authentication authentication) {
+        Offer offer = offerService.getOfferById(id);
+
+        if (offer != null) {
+            String loggedInUsername = authentication.getName(); // Get logged-in user's username
+            if (!offer.getUser().getUsername().equals(loggedInUsername)) {
+                // Redirect if the user is not the owner of the offer
+                return "redirect:/offers/?error=not_authorized";
+            }
+
+            offerService.deleteOffer(id); // Proceed with deletion if authorized
+        }
         return "redirect:/offers/";
     }
 

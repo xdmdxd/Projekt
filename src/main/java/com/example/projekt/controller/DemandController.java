@@ -1,9 +1,12 @@
 package com.example.projekt.controller;
 
 import com.example.projekt.model.Demand;  // Use Demand instead of Offer
+import com.example.projekt.model.User;
+import com.example.projekt.repository.UserRepository;
 import com.example.projekt.service.DemandService;  // Use DemandService instead of OfferService
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,10 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class DemandController {  // Use DemandController instead of OfferController
 
     private DemandService demandService;  // Use DemandService instead of OfferService
+    private UserRepository userRepository;
 
     @Autowired
-    public DemandController(DemandService demandService) {  // Constructor injection for DemandService
+    public DemandController(DemandService demandService, UserRepository userRepository) {  // Constructor injection for DemandService
         this.demandService = demandService;
+        this.userRepository = userRepository;
     }
 
     // List all demands
@@ -27,16 +32,19 @@ public class DemandController {  // Use DemandController instead of OfferControl
         return "demand_list";  // Return "demand_list" view
     }
 
-    // View demand details by ID
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable long id) {
-        Demand demand = demandService.getDemandById(id);  // Fetch demand by ID
+    public String detail(Model model, @PathVariable long id, Authentication authentication) {
+        Demand demand = demandService.getDemandById(id);
         if (demand != null) {
+            String loggedInUsername = authentication.getName();
+            boolean isOwner = demand.getUser().getUsername().equals(loggedInUsername); // Check ownership
             model.addAttribute("demand", demand);
-            return "demand_detail";  // Return "demand_detail" view
+            model.addAttribute("isOwner", isOwner); // Pass ownership flag to the template
+            return "demand_detail";
         }
-        return "redirect:/demands/";  // Redirect to demand list if not found
+        return "redirect:/demands/";
     }
+
 
     // Delete demand by ID
     @GetMapping("/delete/{id}")
@@ -65,14 +73,15 @@ public class DemandController {  // Use DemandController instead of OfferControl
         return "redirect:/demands/";  // Redirect to demand list if not found
     }
 
-    // Save demand (create or update)
     @PostMapping("/save")
-    public String save(@Valid Demand demand, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {  // If there are validation errors
-            model.addAttribute("edit", true);  // Indicate it's an edit form
-            return "demand_edit";  // Return "demand_edit" view with errors
+    public String saveDemand(@ModelAttribute Demand demand, Authentication authentication) {
+        String username = authentication.getName(); // Get logged-in user's username
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            demand.setUser(user); // Associate user with the demand
+            demandService.saveDemand(demand);
         }
-        demandService.saveDemand(demand);  // Save or update the demand
-        return "redirect:/demands/";  // Redirect to the demand list after save
+        return "redirect:/demands/";
     }
+
 }

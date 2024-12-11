@@ -17,11 +17,16 @@
     <!-- Demands List -->
     <ul class="demands-list">
         <li th:each="demand: ${demands}">
+            <div>
             <a th:href="@{'/demands/detail/' + ${demand.id}}" class="demand-link">
                 <span th:text="${demand.title}"></span>
             </a>
+            <span> - Created by: </span>
+            <span th:text="${demand.user.email}"></span>
+            </div>
         </li>
     </ul>
+
 
     <!-- Go back Button -->
     <a th:href="@{'/'}" class="btn btn-secondary">Go back</a>
