@@ -66,6 +66,11 @@ public class UserServiceImpl implements UserService {
                 .roles(user.getRole().name())
                 .build();
     }
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
 
 
 }

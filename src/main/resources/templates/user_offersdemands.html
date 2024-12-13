@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Offers and Demands</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+<div class="container">
+  <h1>My Offers</h1>
+  <div th:if="${offers.isEmpty()}">
+    <p>You have no offers.</p>
+  </div>
+  <ul th:if="${!offers.isEmpty()}">
+    <li th:each="offer : ${offers}">
+      <h2 th:text="${offer.title}"></h2>
+      <p th:text="${offer.description}"></p>
+      <p><strong>Price:</strong> <span th:text="${offer.price}"></span></p>
+      <p><strong>Location:</strong> <span th:text="${offer.location}"></span></p>
+      <a th:href="@{'/offers/edit/' + ${offer.id}}" class="btn">Edit</a>
+      <a th:href="@{'/offers/delete/' + ${offer.id}}" class="btn">Delete</a>
+    </li>
+  </ul>
+
+  <h1>My Demands</h1>
+  <div th:if="${demands.isEmpty()}">
+    <p>You have no demands.</p>
+  </div>
+  <ul th:if="${!demands.isEmpty()}">
+    <li th:each="demand : ${demands}">
+      <h2 th:text="${demand.title}"></h2>
+      <p th:text="${demand.description}"></p>
+      <p><strong>Price:</strong> <span th:text="${demand.price}"></span></p>
+      <p><strong>Location:</strong> <span th:text="${demand.location}"></span></p>
+      <a th:href="@{'/demands/edit/' + ${demand.id}}" class="btn">Edit</a>
+      <a th:href="@{'/demands/delete/' + ${demand.id}}" class="btn">Delete</a>
+    </li>
+  </ul>
+  <a th:href="@{'/'}" class="btn btn-secondary">Go back</a>
+</div>
+</body>
+</html>

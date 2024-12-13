@@ -16,8 +16,13 @@
     </div>
 
     <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-secondary">User Edit</a>
+    <!-- Form for deleting the account -->
+    <form th:action="@{/users/deleteAccount}" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger">Delete Account</button>
+    </form>
     <a th:href="@{/logout}" class="btn btn-secondary">Logout</a>
     <a th:href="@{/}" class="btn btn-secondary">Go back</a>
+
 </div>
 </body>
 </html>

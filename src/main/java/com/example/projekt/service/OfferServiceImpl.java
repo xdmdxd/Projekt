@@ -39,6 +39,9 @@ public class OfferServiceImpl implements OfferService {
             offerRepository.delete(offer.get());
         }
     }
+    public List<Offer> getOffersByUserId(Long userId) {
+        return offerRepository.findByUser_Id(userId);
+    }
 
 
 }

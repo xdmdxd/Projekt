@@ -2,12 +2,12 @@ package com.example.projekt.controller;
 
 import com.example.projekt.model.User;
 import com.example.projekt.repository.UserRepository;
+import com.example.projekt.service.DemandService;
+import com.example.projekt.service.OfferService;
 import com.example.projekt.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,11 +19,15 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final OfferService offerService;
+    private final DemandService demandService;
 
     @Autowired
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService, UserRepository userRepository, OfferService offerService, DemandService demandService) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.offerService = offerService;
+        this.demandService = demandService;
     }
 
     // List all users
@@ -110,6 +114,37 @@ public class UserController {
 
 
 
+    @GetMapping("/my-offers")
+    public String getMyOffers(Model model, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login"; // Pokud není uživatel přihlášen
+        }
+
+        String username = authentication.getName(); // Získání uživatelského jména
+        User user = userService.getUserByUsername(username); // Metoda v UserService pro získání uživatele podle username
+
+        if (user == null) {
+            return "redirect:/login"; // Pokud uživatel není nalezen, přesměrujte na přihlášení
+        }
+
+        model.addAttribute("offers", user.getOffers()); // Přidejte uživatelovy nabídky do modelu
+        model.addAttribute("demands", user.getDemands()); // Přidejte uživatelovy poptávky do modelu
+
+        return "user_offersdemands"; // Název šablony HTML pro zobrazení nabídek a poptávek
+    }
+
+
+    @PostMapping("/deleteAccount")
+    public String deleteAccount(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            String username = authentication.getName(); // Get the logged-in username
+            User user = userRepository.findByUsername(username);
+            if (user != null) {
+                userService.deleteUser(user.getId()); // Delete the user by ID
+            }
+        }
+        return "redirect:/logout"; // Log out the user after account deletion
+    }
 
 
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "offers")
@@ -84,4 +86,6 @@ public class Offer {
     public void setUser(User user) {
         this.user = user;
     }
+
+
 }
