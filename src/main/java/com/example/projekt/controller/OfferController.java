@@ -72,8 +72,13 @@ public class OfferController {
 
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable long id, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login"; // Redirect to login if not authenticated
+        }
+
         // Fetch the offer by its ID
         Offer offer = offerService.getOfferById(id);
+
         if (offer != null) {
             String loggedInUsername = authentication.getName(); // Get the logged-in user's username
             if (!offer.getUser().getUsername().equals(loggedInUsername)) {
@@ -86,6 +91,7 @@ public class OfferController {
             model.addAttribute("edit", true);
             return "offer_edit";
         }
+
         return "redirect:/offers/";
     }
 

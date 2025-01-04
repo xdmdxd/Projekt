@@ -89,28 +89,39 @@ public class UserController {
 
 
     @PostMapping("/save")
-    public String save(@Valid User user, BindingResult bindingResult, Model model) {
+    public String save(@Valid User user, BindingResult bindingResult, Model model, Authentication authentication) {
+        if (user.getId() == null) {
+            System.out.println("User ID is missing!");
+        } else {
+            System.out.println("Received User ID: " + user.getId());
+        }
+
         if (bindingResult.hasErrors()) {
-            model.addAttribute("edit", user.getId() != null);
+            model.addAttribute("edit", true);
             return "user_edit";
         }
 
-        // Check if the email is already in use by another user
         User existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser != null && !existingUser.getId().equals(user.getId())) {
             model.addAttribute("emailError", "Email is already in use.");
-            model.addAttribute("edit", user.getId() != null);
+            model.addAttribute("edit", true);
             return "user_edit";
         }
 
-        // Handle password updates (e.g., allow blank passwords to mean "no change")
-        if (user.getPassword() != null && user.getPassword().isEmpty()) {
-            user.setPassword(null);
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            User existing = userService.getUserById(user.getId());
+            if (existing != null) {
+                user.setPassword(existing.getPassword()); // Retain old password
+            }
         }
 
         userService.saveUser(user);
-        return "redirect:/users/";
+        return "redirect:/users/detail";
     }
+
+
+
+
 
 
 

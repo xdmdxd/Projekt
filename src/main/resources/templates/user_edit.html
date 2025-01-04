@@ -11,6 +11,7 @@
     <h1 th:text="${edit ? 'Edit User' : 'Create User'}"></h1>
 
     <form th:action="@{/users/save}" th:object="${user}" method="post">
+        <input type="hidden" name="id" th:field="*{id}">
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" class="form-control" th:field="*{username}" required>
@@ -31,21 +32,14 @@
 
         <div class="form-group">
             <label for="password">Password:</label>
-            <!-- Pokud není v režimu editace, pole je povinné -->
+            <input type="password" id="newPassword" name="password" class="form-control" th:field="*{password}" th:if="${edit}" placeholder="Leave blank to keep current password">
             <input type="password" id="password" name="password" class="form-control" th:field="*{password}" th:if="${!edit}" required>
-
-            <!-- Pokud je v režimu editace, pole hesla není povinné -->
-            <input type="password" id="newPassword" name="password" class="form-control" th:field="*{password}" th:if="${edit}">
-
-            <!-- Text pro uživatele, že může nechat heslo prázdné -->
-            <p th:if="${edit}" class="text-muted">Leave blank to keep the current password.</p>
         </div>
 
-
-
-        <button type="submit" class="btn btn-success" th:text="${edit ? 'Update' : 'Create'}"></button>
-        <a th:href="@{/}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-success">Update</button>
+        <a th:href="@{/users/detail}" class="btn btn-secondary">Cancel</a>
     </form>
+
 </div>
 </body>
 </html>

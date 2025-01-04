@@ -61,17 +61,33 @@ public class DemandController {  // Use DemandController instead of OfferControl
         return "demand_edit";  // Return "demand_edit" view for creation
     }
 
-    // Edit demand by ID
     @GetMapping("/edit/{id}")
-    public String edit(Model model, @PathVariable long id) {
-        Demand demand = demandService.getDemandById(id);  // Fetch demand by ID for editing
-        if (demand != null) {
-            model.addAttribute("demand", demand);
-            model.addAttribute("edit", true);  // Indicate it's an edit form
-            return "demand_edit";  // Return "demand_edit" view for editing
+    public String edit(Model model, @PathVariable long id, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login"; // Redirect to login if not authenticated
         }
-        return "redirect:/demands/";  // Redirect to demand list if not found
+
+        // Fetch the demand by ID
+        Demand demand = demandService.getDemandById(id);
+
+        if (demand != null) {
+            // Get the logged-in user's username
+            String loggedInUsername = authentication.getName();
+
+            // Check if the logged-in user is the owner of the demand
+            if (!demand.getUser().getUsername().equals(loggedInUsername)) {
+                return "redirect:/demands/"; // Redirect to the demand list if not authorized
+            }
+
+            // If the user is authorized, display the edit form
+            model.addAttribute("demand", demand);
+            model.addAttribute("edit", true); // Indicate it's an edit form
+            return "demand_edit"; // Return "demand_edit" view for editing
+        }
+
+        return "redirect:/demands/"; // Redirect to the demand list if the demand is not found
     }
+
 
     @PostMapping("/save")
     public String saveDemand(@ModelAttribute Demand demand, Authentication authentication) {
