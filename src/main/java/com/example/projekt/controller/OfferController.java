@@ -4,6 +4,7 @@ import com.example.projekt.model.Offer;
 import com.example.projekt.model.User;
 import com.example.projekt.repository.UserRepository;
 import com.example.projekt.service.OfferService;
+import com.example.projekt.service.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,11 +19,13 @@ public class OfferController {
 
     private OfferService offerService;
     private UserRepository userRepository;
+    private ReviewService reviewService;
 
     @Autowired
-    public OfferController(OfferService offerService, UserRepository userRepository) {
+    public OfferController(OfferService offerService, UserRepository userRepository, ReviewService reviewService) {
         this.offerService = offerService;
         this.userRepository = userRepository;
+        this.reviewService = reviewService;
     }
 
     // List all offers
@@ -37,13 +40,16 @@ public class OfferController {
         Offer offer = offerService.getOfferById(id);
         if (offer != null) {
             String loggedInUsername = authentication.getName();
-            boolean isOwner = offer.getUser().getUsername().equals(loggedInUsername); // Check ownership
+            boolean isOwner = offer.getUser().getUsername().equals(loggedInUsername);
+
             model.addAttribute("offer", offer);
-            model.addAttribute("isOwner", isOwner); // Pass ownership flag to the template
+            model.addAttribute("isOwner", isOwner);
+            model.addAttribute("reviews", reviewService.getReviewsByOfferId(offer.getId())); // Add reviews to model
             return "offer_detail";
         }
         return "redirect:/offers/";
     }
+
 
     // Delete offer by ID
     @GetMapping("/delete/{id}")
@@ -96,13 +102,19 @@ public class OfferController {
     }
 
     @PostMapping("/save")
-    public String saveOffer(@ModelAttribute Offer offer, Authentication authentication) {
-        String username = authentication.getName(); // Získání přihlášeného uživatele
+    public String saveOffer(@ModelAttribute Offer offer, BindingResult result, Authentication authentication) {
+        if (result.hasErrors()) {
+            return "offer_edit"; // Return the form if there are validation errors
+        }
+
+        String username = authentication.getName();
         User user = userRepository.findByUsername(username);
+
         if (user != null) {
-            offer.setUser(user); // Přiřazení uživatele k nabídce
-            offerService.saveOffer(offer);
+            offer.setUser(user);
+            offerService.saveOffer(offer); // Use saveOffer for both create and update
         }
         return "redirect:/offers/";
     }
+
 }

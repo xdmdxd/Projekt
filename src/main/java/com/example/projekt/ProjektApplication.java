@@ -44,6 +44,14 @@ public class ProjektApplication {
                 user.setEmail("xd@xd");
                 userRepository.save(user);
             }
+            if (userRepository.findByUsername("d") == null) {
+                User user = new User();
+                user.setUsername("d");
+                user.setPassword(passwordEncoder.encode("d")); // Heslo zakódované pomocí BCrypt
+                user.setRole(Role.USER);
+                user.setEmail("d@d");
+                userRepository.save(user);
+            }
         };
     }
 }

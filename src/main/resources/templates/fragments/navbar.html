@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
+
+</head>
+<body>
+<div class="navbar" th:fragment="navbar">
+    <a th:href="@{'/'}" class="navbar-title">
+        <h1>Marketplace</h1>
+    </a>
+    <div class="nav-links">
+        <a th:href="@{'/offers/'}">Offers</a>
+        <a th:href="@{'/demands/'}">Demands</a>
+        <a th:href="@{'/users/detail'}">Edit Profile</a>
+        <a th:href="@{'/users/my-offers'}">My Offers</a>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

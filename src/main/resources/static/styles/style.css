@@ -130,6 +130,7 @@ h1 {
         margin-bottom: 10px;
         transition: color 0.3s ease, text-decoration 0.3s ease;
     }
+
     /* Table styles */
     .offers-container {
         width: 80%;
@@ -167,4 +168,162 @@ h1 {
         background-color: #f1f1f1;
     }
 
+    /* Review Section Styles */
+    .review-section {
+        margin: 30px auto; /* Centers the div horizontally */
+        padding: 20px;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        width: 60%; /* Adjust width as needed */
+        display: flex; /* Enable flexbox for centering */
+        justify-content: center; /* Center content horizontally */
+        align-items: center; /* Center content vertically */
+    }
+
+
+    .review-section h3 {
+        text-align: center;
+        font-size: 1.5em;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .review-section .form-group {
+        margin-bottom: 15px;
+    }
+
+    .review-section label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .review-section textarea,
+    .review-section input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+
+    .review-section button {
+        display: block;
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .review-section button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Reviews Section */
+    .reviews-section {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .reviews-section h3 {
+        text-align: center;
+        font-size: 1.5em;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .reviews-section ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .reviews-section li {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .reviews-section li p {
+        margin: 5px 0;
+        color: #555;
+    }
+
+    .reviews-section li p b {
+        color: #000;
+    }
+
+    .reviews-section li .review-stars {
+        font-size: 1.2em;
+        color: #ffcc00; /* Gold stars for visual appeal */
+    }
+
+    .reviews-section li .review-text {
+        font-style: italic;
+        color: #333;
+    }
 }
+    .navbar {
+        background-color: #333;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar h1 {
+        color: white;
+        font-size: 1.8em;
+        margin: 0;
+    }
+
+    .navbar .nav-links {
+        display: flex;
+        gap: 15px;
+    }
+
+    .navbar .nav-links a,
+    .navbar form button {
+        color: white;
+        text-decoration: none;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #28a745;
+        transition: background-color 0.3s ease;
+        font-size: 1em;
+        cursor: pointer;
+    }
+
+    .navbar .nav-links a:hover,
+    .navbar form button:hover {
+        background-color: #218838;
+    }
+
+    .navbar form {
+        margin: 0;
+    }
+
+    .content {
+        padding: 20px;
+        text-align: center;
+    }
+    /* Ensure visibility outside media queries */
+    @media (min-width: 769px) {
+        .navbar {
+            display: flex;
+        }
+    }

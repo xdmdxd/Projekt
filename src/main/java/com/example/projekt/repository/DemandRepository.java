@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface DemandRepository extends JpaRepository<Demand, Long> {
     List<Demand> findByUser_Id(Long userId);
+
 }

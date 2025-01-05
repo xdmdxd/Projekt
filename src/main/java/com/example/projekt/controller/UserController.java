@@ -8,6 +8,7 @@ import com.example.projekt.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,15 +20,14 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
-    private final OfferService offerService;
-    private final DemandService demandService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, UserRepository userRepository, OfferService offerService, DemandService demandService) {
+    public UserController(UserService userService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.userRepository = userRepository;
-        this.offerService = offerService;
-        this.demandService = demandService;
+
+        this.passwordEncoder = passwordEncoder;
     }
 
     // List all users
@@ -90,17 +90,13 @@ public class UserController {
 
     @PostMapping("/save")
     public String save(@Valid User user, BindingResult bindingResult, Model model, Authentication authentication) {
-        if (user.getId() == null) {
-            System.out.println("User ID is missing!");
-        } else {
-            System.out.println("Received User ID: " + user.getId());
-        }
-
+        // Check for validation errors
         if (bindingResult.hasErrors()) {
             model.addAttribute("edit", true);
             return "user_edit";
         }
 
+        // Ensure email uniqueness
         User existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser != null && !existingUser.getId().equals(user.getId())) {
             model.addAttribute("emailError", "Email is already in use.");
@@ -108,16 +104,27 @@ public class UserController {
             return "user_edit";
         }
 
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            User existing = userService.getUserById(user.getId());
-            if (existing != null) {
-                user.setPassword(existing.getPassword()); // Retain old password
-            }
+        // Fetch the current user data
+        User currentUser = userService.getUserById(user.getId());
+
+        // Check if a new password is provided
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            // Encode and set the new password
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            System.out.println("New password encoded.");
+        } else if (currentUser != null) {
+            // Retain the existing password if no new one is provided
+            user.setPassword(currentUser.getPassword());
+            System.out.println("Retaining existing password.");
         }
 
+        // Save the user
         userService.saveUser(user);
+
+        // Redirect to user details
         return "redirect:/users/detail";
     }
+
 
 
 

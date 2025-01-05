@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
 </head>
 <body>
+<div th:replace="fragments/navbar :: navbar"></div>
 <div class="container">
     <!-- Offer Details Section -->
     <div class="offer-details">
@@ -17,7 +18,6 @@
             <a th:if="${isOwner}" th:href="@{'/offers/delete/' + ${offer.id}}" class="btn btn-secondary">DELETE OFFER</a>
         </div>
 
-
         <!-- Offer Details -->
         <div class="details">
             <p><b>Title:</b> <span th:text="${offer.title}"></span></p>
@@ -25,8 +25,40 @@
             <p><b>Price:</b> <span th:text="${offer.price}"></span></p>
             <p><b>Location:</b> <span th:text="${offer.location}"></span></p>
             <p><b>Created At:</b> <span th:text="${offer.createdAt}"></span></p>
+            <p><b>Text owner at:</b> <span th:text="${offer.user.email}"></span></p>
         </div>
+        <hr class="section-separator">
+        <!-- Submit Review Section -->
+        <div class="review-section">
+            <h3>Submit a Review</h3>
+            <form th:action="@{/reviews/save}" method="post">
+                <input type="hidden" name="offerId" th:value="${offer.id}" />
 
+                <div class="form-group">
+                    <label for="reviewText">Review Text:</label>
+                    <textarea id="reviewText" name="text" class="form-control" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="stars">Stars (0-5):</label>
+                    <input type="number" id="stars" name="stars" class="form-control" min="0" max="5" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        </div>
+        <hr class="section-separator">
+        <!-- Reviews Section -->
+        <div class="reviews-section">
+            <h3>Reviews</h3>
+            <ul>
+                <li th:each="review : ${reviews}">
+                    <p><b>User:</b> <span th:text="${review.user.username}"></span></p>
+                    <p><b>Stars:</b> <span th:each="i : ${#numbers.sequence(1, review.stars)}" class="review-stars">★</span></p>
+                    <p><b>Review:</b> <span th:text="${review.text}"></span></p>
+                </li>
+            </ul>
+        </div>
 
         <!-- Go back Button -->
         <a th:href="@{'/offers/'}" class="btn btn-secondary">Go back</a>

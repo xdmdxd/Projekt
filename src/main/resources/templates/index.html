@@ -2,28 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Log</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
   <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}" />
-</head>
+
 <body>
-<center>
-  <h1>LOGGED IN</h1>
-
-  <a th:href="@{'/offers/'}" class="btn btn-secondary">List of offers</a>
-  <br>
-  <a th:href="@{'/demands/'}" class="btn btn-secondary">List of demands</a>
-  <br><br>
-  <a th:href="@{'/users/detail'}" class="btn btn-secondary">Edit User</a>
-  <br><br>
-  <a th:href="@{'/users/my-offers'}" class="btn btn-secondary">My offers</a>
+<div th:replace="fragments/navbar :: navbar"></div>
 
 
-  <!-- Logout Button -->
-  <form th:action="@{/logout}" method="post" style="display: inline;">
-    <button type="submit" class="btn btn-danger">Logout</button>
-  </form>
-
-</center>
+<!-- Page Content -->
+<div class="content">
+  <h2>Welcome!</h2>
+  <p>This is marketplace for demands and offers</p>
+</div>
 
 </body>
 </html>

@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
+<div th:replace="fragments/navbar :: navbar"></div>
 <div class="container">
   <h1>My Offers</h1>
   <div th:if="${offers.isEmpty()}">
@@ -18,6 +19,7 @@
       <p><strong>Price:</strong> <span th:text="${offer.price}"></span></p>
       <p><strong>Location:</strong> <span th:text="${offer.location}"></span></p>
       <a th:href="@{'/offers/edit/' + ${offer.id}}" class="btn">Edit</a>
+      <a th:href="@{'/offers/detail/' + ${offer.id}}" class="btn"> Detail</a>
       <a th:href="@{'/offers/delete/' + ${offer.id}}" class="btn">Delete</a>
     </li>
   </ul>
@@ -33,6 +35,7 @@
       <p><strong>Price:</strong> <span th:text="${demand.price}"></span></p>
       <p><strong>Location:</strong> <span th:text="${demand.location}"></span></p>
       <a th:href="@{'/demands/edit/' + ${demand.id}}" class="btn">Edit</a>
+      <a th:href="@{'/offers/detail/' + ${demand.id}}" class="btn"> Detail</a>
       <a th:href="@{'/demands/delete/' + ${demand.id}}" class="btn">Delete</a>
     </li>
   </ul>
