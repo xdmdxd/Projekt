@@ -35,10 +35,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        if (user.getId() != null) { // Pokud uživatel již existuje
+        if (user.getId() != null) { // If the user already exists
             User existingUser = userRepository.findById(user.getId()).orElse(null);
             if (existingUser != null) {
-                // Zachovat heslo, pokud není nové heslo poskytnuto
+                // Retain existing relationships
+                user.setOffers(existingUser.getOffers());
+                user.setDemands(existingUser.getDemands());
+
+                // Retain password if no new password is provided
                 if (user.getPassword() == null || user.getPassword().isEmpty()) {
                     user.setPassword(existingUser.getPassword());
                 }
@@ -46,6 +50,7 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(user);
     }
+
 
 
 
